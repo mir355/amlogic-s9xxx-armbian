@@ -14,4 +14,5 @@ make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- \
      M="${PWD}"
 mkdir build
 cd ${OUT_DIR}/$(M); find -name "*.ko" -exec cp {} build/ \;
-tar zcf ${out_kernel}/uwe5631.tar.gz
+mkdir -p ${out_kernel}/drivers
+tar zcf ${out_kernel}/drivers/uwe5631.tar.gz build/*
