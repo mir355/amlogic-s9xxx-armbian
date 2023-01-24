@@ -566,7 +566,7 @@ compile_selection() {
     if [[ "${package_list}" == "dtbs" ]]; then
         compile_dtbs
         packit_dtbs
-    else if [[ "${package_list}" != "all" ]]; then
+    elif [[ "${package_list}" != "all" ]]; then
         compile_drivers        
     else
         compile_kernel
