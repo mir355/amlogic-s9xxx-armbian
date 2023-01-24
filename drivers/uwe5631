@@ -9,6 +9,6 @@ drivers_repo="CoreELEC/uwe5631-aml"
 git clone -q --single-branch --depth 1 https://github.com/${drivers_repo}
 cd uwe5631-aml
 mkdir build
-make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- KERNEL_SRC="${kernel_path}" M="${PWD}"
+make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- KERNEL_SRC="${kernel_path}" M="${PWD}" all
 cd ${make_path}/uwe5631-aml; find -name "*.ko" -exec cp {} build/ \;
 tar zcf ${out_kernel}/${kernel_version}/uwe5631.tar.gz build/*
