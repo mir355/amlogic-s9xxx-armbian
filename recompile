@@ -432,6 +432,8 @@ compile_dtbs() {
 }
 
 compile_drivers(){
+    pwd
+    ls -al
     bash ./drivers/${package_list}
     # cd drivers
 }
