@@ -45,6 +45,7 @@ on:
         options:
           - all
           - dtbs
+          - uwe5631
       kernel_sign:
         description: "Set the kernel custom signature"
         required: false
