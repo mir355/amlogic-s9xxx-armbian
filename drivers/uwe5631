@@ -1,17 +1,14 @@
 #!/bin/bash
-#make_path="${PWD}"
-#compile_path="${make_path}/compile-kernel"
+make_path="${PWD}"
+compile_path="${make_path}/compile-kernel"
 #out_kernel="${compile_path}/output"
-#kernel_path="${compile_path}/kernel"
+kernel_path="${compile_path}/kernel"
 #arch_info="$(arch)"
 
 drivers_repo="CoreELEC/uwe5631-aml"
-cd drivers
 git clone -q --single-branch --depth 1 https://github.com/${drivers_repo}
 cd uwe5631-aml
-make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- \
-     KERNEL_SRC="${kernel_path}" \
-     M="${PWD}"
 mkdir build
-cd ${OUT_DIR}/$(M); find -name "*.ko" -exec cp {} build/ \;
+make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- KERNEL_SRC="${kernel_path}" M="${PWD}"
+cd ${make_path}/uwe5631-aml; find -name "*.ko" -exec cp {} build/ \;
 tar zcf ${out_kernel}/${kernel_version}/uwe5631.tar.gz build/*
