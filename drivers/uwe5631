@@ -1,7 +1,7 @@
 #!/bin/bash
 make_path="${PWD}"
 compile_path="${make_path}/compile-kernel"
-#out_kernel="${compile_path}/output"
+out_kernel="${compile_path}/output"
 kernel_path="${compile_path}/kernel"
 #arch_info="$(arch)"
 
@@ -11,4 +11,4 @@ cd uwe5631-aml
 mkdir build
 make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- KERNEL_SRC="${kernel_path}" M="${PWD}" all
 cd ${make_path}/uwe5631-aml; find -name "*.ko" -exec cp {} build/ \;
-tar zcf ${out_kernel}/${kernel_version}/uwe5631.tar.gz build/*
+tar zcf ${out_kernel}/uwe5631.tar.gz build/*
