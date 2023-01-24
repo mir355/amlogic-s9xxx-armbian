@@ -431,6 +431,12 @@ compile_dtbs() {
     [[ "${?}" -eq "0" ]] && echo -e "${SUCCESS} The dtbs is compiled successfully."
 }
 
+compile_drivers(){
+    mkdir drivers
+    bash ./${package_list}
+    # cd drivers
+}
+
 compile_kernel() {
     cd ${kernel_path}/${local_kernel_path}
 
@@ -560,6 +566,8 @@ compile_selection() {
     if [[ "${package_list}" == "dtbs" ]]; then
         compile_dtbs
         packit_dtbs
+    else if [[ "${package_list}" != "all" ]]; then
+        compile_drivers        
     else
         compile_kernel
         generate_uinitrd
