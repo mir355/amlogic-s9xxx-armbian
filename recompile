@@ -432,10 +432,9 @@ compile_dtbs() {
 }
 
 compile_drivers(){
-    pwd
-    ls -al
+    cd make_path
     bash ./drivers/${package_list}
-    # cd drivers
+    cd ${kernel_path}/${local_kernel_path}
 }
 
 compile_kernel() {
