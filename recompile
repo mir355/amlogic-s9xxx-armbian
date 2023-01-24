@@ -432,8 +432,7 @@ compile_dtbs() {
 }
 
 compile_drivers(){
-    mkdir drivers
-    bash ./${package_list}
+    bash ./drivers/${package_list}
     # cd drivers
 }
 
