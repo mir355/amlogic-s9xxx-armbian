@@ -3,6 +3,11 @@ make_path="${PWD}"
 compile_path="${make_path}/compile-kernel"
 out_kernel="${compile_path}/output"
 kernel_path=$1
+
+cd ${kernel_path}
+make oldconfig && make prepare
+
+cd ${make_path}
 #arch_info="$(arch)"
 
 drivers_repo="CoreELEC/uwe5631-aml"
