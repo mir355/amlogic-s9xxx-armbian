@@ -433,7 +433,7 @@ compile_dtbs() {
 
 compile_drivers(){
     cd ${make_path}
-    bash -x ./drivers/${package_list}
+    bash -x ./drivers/${package_list} ${kernel_path}/${local_kernel_path}
     cd ${kernel_path}/${local_kernel_path}
 }
 
