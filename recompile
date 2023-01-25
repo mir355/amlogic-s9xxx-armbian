@@ -447,6 +447,7 @@ compile_kernel() {
     sed -i "s/--help--/help/g" ${kernel_path}/${local_kernel_path}/drivers/net/wireless/uwe5622/tty-sdio/Kconfig
     
     cd ${kernel_path}/${local_kernel_path}
+    sed -i "/ti\//a obj-\$(CONFIG_WLAN_VENDOR_UWE5622) +=  uwe5622/" drivers/net/wireless/Makefile
     cat .config |grep UWE
     
     # Make kernel
