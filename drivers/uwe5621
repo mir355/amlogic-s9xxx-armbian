@@ -11,8 +11,8 @@ cd ${make_path}
 #arch_info="$(arch)"
 drivers_repo="KryptonLee/uwe5621ds-aml"
 git clone -q --single-branch --depth 1 https://github.com/${drivers_repo}
-cd uwe5621ds-aml
+cd uwe5621ds-aml/unisocwifi
 mkdir build
-make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- KDIR="${kernel_path}" SRC_PATH="${PWD}" M="${PWD}"
+make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- KDIR="${kernel_path}" SRC_PATH="${PWD}" M="${PWD}" all
 cd ${make_path}/uwe5621ds-aml; find -name "*.ko" -exec cp {} build/ \;
 tar zcf ${out_kernel}/uwe5621ds.tar.gz build/*
