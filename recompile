@@ -447,6 +447,8 @@ compile_kernel() {
     sed -i "s/--help--/help/g" ${kernel_path}/${local_kernel_path}/drivers/net/wireless/uwe5622/tty-sdio/Kconfig
     
     cd ${kernel_path}/${local_kernel_path}
+    cat .config |grep UWE
+    
     # Make kernel
     echo -e "${STEPS} Start compilation kernel [ ${local_kernel_path} ]..."
     make ${MAKE_SET_STRING} Image modules dtbs -j${PROCESS}
