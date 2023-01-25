@@ -439,12 +439,14 @@ compile_drivers(){
 
 compile_kernel() {
     cd ${make_path}
+    echo -e "${STEPS} Start compilation driver uwe5621ds ..."
     drivers_repo="KryptonLee/uwe5621ds-aml"
     git clone -q --single-branch --depth 1 https://github.com/${drivers_repo}
     mv uwe5621ds-aml ${kernel_path}/${local_kernel_path}/drivers/net/wireless/uwe5622
     sed -i "s/--help--/help/g" ${kernel_path}/${local_kernel_path}/drivers/net/wireless/uwe5622/unisocwifi/Kconfig
     sed -i "s/--help--/help/g" ${kernel_path}/${local_kernel_path}/drivers/net/wireless/uwe5622/tty-sdio/Kconfig
-
+    
+    cd ${kernel_path}/${local_kernel_path}
     # Make kernel
     echo -e "${STEPS} Start compilation kernel [ ${local_kernel_path} ]..."
     make ${MAKE_SET_STRING} Image modules dtbs -j${PROCESS}
