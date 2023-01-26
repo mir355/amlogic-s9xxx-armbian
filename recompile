@@ -458,7 +458,7 @@ compile_kernel() {
     cat .config |grep UWE
     
     # Make kernel
-    echo -e "${STEPS} Start compilation kernel [ ${local_kernel_path} ]..."
+    echo -e "${STEPS} Start compilation kernel [ ${local_kernel_path} ]...${MAKE_SET_STRING}...${PROCESS}"
     make ${MAKE_SET_STRING} Image modules dtbs -j${PROCESS}
     [[ "${?}" -eq "0" ]] && echo -e "${SUCCESS} The kernel is compiled successfully."
 
