@@ -4,15 +4,26 @@ compile_path="${make_path}/compile-kernel"
 out_kernel="${compile_path}/output"
 kernel_path=$1
 
-cd ${kernel_path}
-make oldconfig && make prepare
-
 cd ${make_path}
+mkdir uwe5621ds && cd uwe5621ds
+wget https://raw.githubusercontent.com/armbian/build/master/patch/misc/wireless-driver-for-uwe5622-allwinner-bt-fix.patch
+wget https://raw.githubusercontent.com/armbian/build/master/patch/misc/wireless-driver-for-uwe5622-allwinner-bugfix.patch
+wget https://raw.githubusercontent.com/armbian/build/master/patch/misc/wireless-driver-for-uwe5622-allwinner.patch
+
+cd ${kernel_path}
+patch -p1 < ${make_path}/uwe5621ds/wireless-driver-for-uwe5622-allwinner.patch
+patch -p1 < ${make_path}/uwe5621ds/wireless-driver-for-uwe5622-allwinner-bugfix.patch
+
+make oldconfig && make prepare && make scripts
+
+make KDIR=/mnt/linux-6.1.y M=drivers/net/wireless/uwe5622 modules
+
 #arch_info="$(arch)"
-drivers_repo="KryptonLee/uwe5621ds-aml"
-git clone -q --single-branch --depth 1 https://github.com/${drivers_repo}
-cd uwe5621ds-aml/unisocwifi
-mkdir build
-make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- KDIR="${kernel_path}" SRC_PATH="${PWD}" M="${PWD}" all
-cd ${make_path}/uwe5621ds-aml; find -name "*.ko" -exec cp {} build/ \;
-tar zcf ${out_kernel}/uwe5621ds.tar.gz build/*
+#drivers_repo="KryptonLee/uwe5621ds-aml"
+#git clone -q --single-branch --depth 1 https://github.com/${drivers_repo}
+#cd uwe5621ds-aml/unisocwifi
+#mkdir build
+#make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- KDIR="${kernel_path}" SRC_PATH="${PWD}" M="${PWD}" all
+mkdir drivers/net/wireless/uwe5622/build
+cd drivers/net/wireless/uwe5622; find -name "*.ko" -exec cp {} build/ \;
+tar zcf ${out_kernel}/uwe5621.tar.gz build/*
