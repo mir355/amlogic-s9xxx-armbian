@@ -15,9 +15,10 @@ patch -p1 < ${make_path}/uwe5621ds/wireless-driver-for-uwe5622-allwinner.patch
 patch -p1 < ${make_path}/uwe5621ds/wireless-driver-for-uwe5622-allwinner-bugfix.patch
 
 make oldconfig && make prepare && make scripts
+echo -e "check config"
 cat .config |grep "uwe562"
 
-make KDIR=/mnt/linux-6.1.y M=drivers/net/wireless/uwe5622 modules
+make KDIR=${kernel_path} M=drivers/net/wireless/uwe5622 modules
 
 #arch_info="$(arch)"
 #drivers_repo="KryptonLee/uwe5621ds-aml"
