@@ -16,6 +16,7 @@ patch -p1 < ${make_path}/uwe5621ds/wireless-driver-for-uwe5622-allwinner-bugfix.
 
 make oldconfig && make prepare && make scripts
 echo -e "check config"
+cp .config ${out_kernel}/config.tar.gz
 cat .config |grep "UWE"
 
 make KDIR=${kernel_path} M=drivers/net/wireless/uwe5622 modules
