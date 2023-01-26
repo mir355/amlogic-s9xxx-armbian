@@ -444,6 +444,7 @@ compile_kernel() {
     wget https://raw.githubusercontent.com/armbian/build/master/patch/misc/wireless-driver-for-uwe5622-allwinner-bt-fix.patch
     wget https://raw.githubusercontent.com/armbian/build/master/patch/misc/wireless-driver-for-uwe5622-allwinner-bugfix.patch
     wget https://raw.githubusercontent.com/armbian/build/master/patch/misc/wireless-driver-for-uwe5622-allwinner.patch
+    ls -al
 #     drivers_repo="KryptonLee/uwe5621ds-aml"
 #     git clone -q --single-branch --depth 1 https://github.com/${drivers_repo}
 #     mv uwe5621ds-aml ${kernel_path}/${local_kernel_path}/drivers/net/wireless/uwe5622
