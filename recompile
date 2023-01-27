@@ -438,31 +438,29 @@ compile_drivers(){
 }
 
 compile_kernel() {
-    cd ${make_path}
+
     echo -e "${STEPS} Start compilation driver uwe5621ds ..."
-    mkdir uwe5621ds && cd uwe5621ds
-    wget https://raw.githubusercontent.com/armbian/build/master/patch/misc/wireless-driver-for-uwe5622-allwinner-bt-fix.patch
-    wget https://raw.githubusercontent.com/armbian/build/master/patch/misc/wireless-driver-for-uwe5622-allwinner-bugfix.patch
-    wget https://raw.githubusercontent.com/armbian/build/master/patch/misc/wireless-driver-for-uwe5622-allwinner.patch
-    ls -al
-#     drivers_repo="KryptonLee/uwe5621ds-aml"
-#     git clone -q --single-branch --depth 1 https://github.com/${drivers_repo}
-#     mv uwe5621ds-aml ${kernel_path}/${local_kernel_path}/drivers/net/wireless/uwe5622
-#     sed -i "s/--help--/help/g" ${kernel_path}/${local_kernel_path}/drivers/net/wireless/uwe5622/unisocwifi/Kconfig
-#     sed -i "s/--help--/help/g" ${kernel_path}/${local_kernel_path}/drivers/net/wireless/uwe5622/tty-sdio/Kconfig
-    
-    cd ${kernel_path}/${local_kernel_path}
-    patch -p1 < ${make_path}/uwe5621ds/wireless-driver-for-uwe5622-allwinner.patch
-    patch -p1 < ${make_path}/uwe5621ds/wireless-driver-for-uwe5622-allwinner-bugfix.patch
+    kernel_x="$(echo "${kernel_version}" | cut -d '.' -f1)"
+    if [[ "${kernel_x}" -ge "6" ]] ; then
+        cd ${make_path}
+        mkdir uwe5621ds && cd uwe5621ds
+        wget https://raw.githubusercontent.com/armbian/build/master/patch/misc/wireless-driver-for-uwe5622-allwinner-bt-fix.patch
+        wget https://raw.githubusercontent.com/armbian/build/master/patch/misc/wireless-driver-for-uwe5622-allwinner-bugfix.patch
+        wget https://raw.githubusercontent.com/armbian/build/master/patch/misc/wireless-driver-for-uwe5622-allwinner.patch
+        ls -al
+
+        cd ${kernel_path}/${local_kernel_path}
+        patch -p1 < ${make_path}/uwe5621ds/wireless-driver-for-uwe5622-allwinner.patch
+        patch -p1 < ${make_path}/uwe5621ds/wireless-driver-for-uwe5622-allwinner-bugfix.patch
+        
+        sed -i "/ti\//a obj-\$(CONFIG_SPARD_WLAN_SUPPORT) +=  uwe5622/" drivers/net/wireless/Makefile
+        sed -i "/Sprd UWE5621 Wi-Fi Driver./a\        default m"  drivers/net/wireless/uwe5622/unisocwifi/Kconfig
+        
+    fi
     
     sed -i "s/default n/default y/g" drivers/net/wireless/uwe5622/Kconfig
-    sed -i "/Sprd UWE5621 Wi-Fi Driver./a\        default m"  drivers/net/wireless/uwe5622/unisocwifi/Kconfig
-    sed -i "/ti\//a obj-\$(CONFIG_SPARD_WLAN_SUPPORT) +=  uwe5622/" drivers/net/wireless/Makefile
-
-
-#     sed -i "/ti\//a obj-\$(CONFIG_WLAN_VENDOR_UWE5622) +=  uwe5622/" drivers/net/wireless/Makefile
     cat .config |grep UWE
-    
+
     # Make kernel
     echo -e "${STEPS} Start compilation kernel [ ${local_kernel_path} ]...${MAKE_SET_STRING}...${PROCESS}"
     make ${MAKE_SET_STRING} Image modules dtbs -j${PROCESS}
