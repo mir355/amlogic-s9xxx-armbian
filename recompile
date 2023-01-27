@@ -454,6 +454,12 @@ compile_kernel() {
     cd ${kernel_path}/${local_kernel_path}
     patch -p1 < ${make_path}/uwe5621ds/wireless-driver-for-uwe5622-allwinner.patch
     patch -p1 < ${make_path}/uwe5621ds/wireless-driver-for-uwe5622-allwinner-bugfix.patch
+    
+    sed -i "s/default n/default y/g" drivers/net/wireless/uwe5622/Kconfig
+    sed -i "/Sprd UWE5621 Wi-Fi Driver./a\        default m"  drivers/net/wireless/uwe5622/unisocwifi/Kconfig
+    sed -i "/ti\//a obj-\$(CONFIG_SPARD_WLAN_SUPPORT) +=  uwe5622/" drivers/net/wireless/Makefile
+
+
 #     sed -i "/ti\//a obj-\$(CONFIG_WLAN_VENDOR_UWE5622) +=  uwe5622/" drivers/net/wireless/Makefile
     cat .config |grep UWE
     
