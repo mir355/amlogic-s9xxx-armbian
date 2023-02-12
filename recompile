@@ -441,23 +441,27 @@ compile_kernel() {
 
     echo -e "${STEPS} Start compilation driver uwe5621ds ..."
     kernel_x="$(echo "${kernel_version}" | cut -d '.' -f1)"
+    cd ${make_path}
+    mkdir uwe5621ds && cd uwe5621ds
+    wget https://raw.githubusercontent.com/armbian/build/master/patch/misc/wireless-driver-for-uwe5622-allwinner.patch
+    wget https://raw.githubusercontent.com/armbian/build/master/patch/misc/wireless-driver-for-uwe5622-allwinner-bugfix.patch
+    wget https://raw.githubusercontent.com/armbian/build/master/patch/misc/wireless-driver-for-uwe5622-warnings.patch
     if [[ "${kernel_x}" -ge "6" ]] ; then
-        cd ${make_path}
-        mkdir uwe5621ds && cd uwe5621ds
-        wget https://raw.githubusercontent.com/armbian/build/master/patch/misc/wireless-driver-for-uwe5622-allwinner-bt-fix.patch
-        wget https://raw.githubusercontent.com/armbian/build/master/patch/misc/wireless-driver-for-uwe5622-allwinner-bugfix.patch
-        wget https://raw.githubusercontent.com/armbian/build/master/patch/misc/wireless-driver-for-uwe5622-allwinner.patch
-        ls -al
-
-        cd ${kernel_path}/${local_kernel_path}
-        patch -p1 < ${make_path}/uwe5621ds/wireless-driver-for-uwe5622-allwinner.patch
-        patch -p1 < ${make_path}/uwe5621ds/wireless-driver-for-uwe5622-allwinner-bugfix.patch
-        
-        sed -i "/ti\//a obj-\$(CONFIG_SPARD_WLAN_SUPPORT) +=  uwe5622/" drivers/net/wireless/Makefile
-        sed -i "/Sprd UWE5621 Wi-Fi Driver./a\        default m"  drivers/net/wireless/uwe5622/unisocwifi/Kconfig
-        
+        wget https://raw.githubusercontent.com/armbian/build/master/patch/misc/wireless-driver-for-uwe5622-v6.1.patch
+        wget https://raw.githubusercontent.com/armbian/build/master/patch/misc/wireless-driver-for-uwe5622-park-link-v6.1-post.patch
+    fi
+    ls -al
+    cd ${kernel_path}/${local_kernel_path}
+    patch -p1 < ${make_path}/uwe5621ds/wireless-driver-for-uwe5622-allwinner.patch
+    patch -p1 < ${make_path}/uwe5621ds/wireless-driver-for-uwe5622-allwinner-bugfix.patch
+    patch -p1 < ${make_path}/uwe5621ds/wireless-driver-for-uwe5622-warnings.patch
+    if [[ "${kernel_x}" -ge "6" ]] ; then
+        patch -p1 < ${make_path}/uwe5621ds/wireless-driver-for-uwe5622-v6.1.patch
+        patch -p1 < ${make_path}/uwe5621ds/wireless-driver-for-uwe5622-park-link-v6.1-post.patch
     fi
     
+    sed -i "/ti\//a obj-\$(CONFIG_SPARD_WLAN_SUPPORT) +=  uwe5622/" drivers/net/wireless/Makefile
+    sed -i "/Sprd UWE5621 Wi-Fi Driver./a\        default m"  drivers/net/wireless/uwe5622/unisocwifi/Kconfig
     sed -i "s/default n/default y/g" drivers/net/wireless/uwe5622/Kconfig
     cat .config |grep UWE
 
