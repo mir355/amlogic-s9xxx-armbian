@@ -470,8 +470,8 @@ compile_kernel() {
 #     patch -p1 < ${make_path}/rtl8811cu/wireless-rtl8811cu-Fix-p2p-go-advertising.patch
 #     patch -p1 < ${make_path}/rtl8811cu/wireless-rtl8811cu-Make-different-MAC-for-if1.patch  
     
-    echo "patch uwe5621&uwe5621"
-    
+    echo -e "patch uwe5621&uwe5621"
+    [ -d "drivers/net/wireless/uwe5622" ] && rm -rf drivers/net/wireless/uwe5622
     patch -p1 < ${make_path}/uwe5621ds/wireless-driver-for-uwe5622-allwinner.patch
     patch -p1 < ${make_path}/uwe5621ds/wireless-driver-for-uwe5622-allwinner-bugfix.patch
     patch -p1 < ${make_path}/uwe5621ds/wireless-driver-for-uwe5622-warnings.patch
