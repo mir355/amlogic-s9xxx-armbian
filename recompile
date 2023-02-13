@@ -441,6 +441,14 @@ compile_kernel() {
 
     echo -e "${STEPS} Start compilation driver uwe5621ds ..."
     kernel_x="$(echo "${kernel_version}" | cut -d '.' -f1)"
+
+    cd ${make_path}
+    mkdir rtl8811cu && cd rtl8811cu
+    wget https://raw.githubusercontent.com/armbian/build/master/patch/misc/wireless-rtl8811cu-5.19.2.patch
+    wget https://raw.githubusercontent.com/armbian/build/master/patch/misc/wireless-rtl8811cu-Fix-VFS-import.patch
+    wget https://raw.githubusercontent.com/armbian/build/master/patch/misc/wireless-rtl8811cu-Fix-p2p-go-advertising.patch
+    wget https://raw.githubusercontent.com/armbian/build/master/patch/misc/wireless-rtl8811cu-Make-different-MAC-for-if1.patch
+   
     cd ${make_path}
     mkdir uwe5621ds && cd uwe5621ds
     wget https://raw.githubusercontent.com/armbian/build/master/patch/misc/wireless-driver-for-uwe5622-allwinner.patch
@@ -452,6 +460,13 @@ compile_kernel() {
     fi
     ls -al
     cd ${kernel_path}/${local_kernel_path}
+    # patch rtl8811cu
+    patch -p1 < ${make_path}/rtl8811cu/wireless-rtl8811cu-5.19.2.patch
+    patch -p1 < ${make_path}/rtl8811cu/wireless-rtl8811cu-Fix-VFS-import.patch
+    patch -p1 < ${make_path}/rtl8811cu/wireless-rtl8811cu-Fix-p2p-go-advertising.patch
+    patch -p1 < ${make_path}/rtl8811cu/wireless-rtl8811cu-Make-different-MAC-for-if1.patch  
+    
+    #patch uwe5621&uwe5621
     patch -p1 < ${make_path}/uwe5621ds/wireless-driver-for-uwe5622-allwinner.patch
     patch -p1 < ${make_path}/uwe5621ds/wireless-driver-for-uwe5622-allwinner-bugfix.patch
     patch -p1 < ${make_path}/uwe5621ds/wireless-driver-for-uwe5622-warnings.patch
