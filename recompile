@@ -444,17 +444,20 @@ compile_kernel() {
 
 #     cd ${make_path}
 #     git clone https://github.com/morrownr/8821cu-20210118
-#     mkdir rtl8811cu && cd rtl8811cu
+#     mkdir rtl8811cu 
+#     cd rtl8811cu
 #     wget https://raw.githubusercontent.com/armbian/build/master/patch/misc/wireless-rtl8811cu-5.19.2.patch
 #     wget https://raw.githubusercontent.com/armbian/build/master/patch/misc/wireless-rtl8811cu-Fix-VFS-import.patch
 #     wget https://raw.githubusercontent.com/armbian/build/master/patch/misc/wireless-rtl8811cu-Fix-p2p-go-advertising.patch
 #     wget https://raw.githubusercontent.com/armbian/build/master/patch/misc/wireless-rtl8811cu-Make-different-MAC-for-if1.patch
    
     cd ${make_path}
-    mkdir uwe5621ds && cd uwe5621ds
+    mkdir uwe5621ds
+    cd uwe5621ds
     wget https://raw.githubusercontent.com/armbian/build/master/patch/misc/wireless-driver-for-uwe5622-allwinner.patch
     wget https://raw.githubusercontent.com/armbian/build/master/patch/misc/wireless-driver-for-uwe5622-allwinner-bugfix.patch
     wget https://raw.githubusercontent.com/armbian/build/master/patch/misc/wireless-driver-for-uwe5622-warnings.patch
+    
     if [[ "${kernel_x}" -ge "6" ]] ; then
         wget https://raw.githubusercontent.com/armbian/build/master/patch/misc/wireless-driver-for-uwe5622-v6.1.patch
         wget https://raw.githubusercontent.com/armbian/build/master/patch/misc/wireless-driver-for-uwe5622-park-link-v6.1-post.patch
@@ -467,7 +470,8 @@ compile_kernel() {
 #     patch -p1 < ${make_path}/rtl8811cu/wireless-rtl8811cu-Fix-p2p-go-advertising.patch
 #     patch -p1 < ${make_path}/rtl8811cu/wireless-rtl8811cu-Make-different-MAC-for-if1.patch  
     
-    #patch uwe5621&uwe5621
+    echo "patch uwe5621&uwe5621"
+    
     patch -p1 < ${make_path}/uwe5621ds/wireless-driver-for-uwe5622-allwinner.patch
     patch -p1 < ${make_path}/uwe5621ds/wireless-driver-for-uwe5622-allwinner-bugfix.patch
     patch -p1 < ${make_path}/uwe5621ds/wireless-driver-for-uwe5622-warnings.patch
