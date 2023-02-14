@@ -327,7 +327,7 @@ The `kernel` / `u-boot` and other resources used by this system are mainly copie
 
 The amlogic-s9xxx-armbian © OPHUB is licensed under [GPL-2.0](LICENSE)
 
-
+```shell
 remote.origin.url
 git remote rm origin
 git remote add origin https://ghproxy.com/https://github.com/armbian/build.git
@@ -405,4 +405,4 @@ export MFLAGS=" LLVM=1 LLVM_IAS=1 "
 
 make ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} CC=${CC} LD=${LD} ${MFLAGS} -C /mnt/armbian/6.1.11/6.1.11-flippy-81+/build M=/mnt/armbian/8821cu-20210916  modules
 
-
+```
