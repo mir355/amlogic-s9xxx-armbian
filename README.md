@@ -327,3 +327,82 @@ The `kernel` / `u-boot` and other resources used by this system are mainly copie
 
 The amlogic-s9xxx-armbian © OPHUB is licensed under [GPL-2.0](LICENSE)
 
+
+remote.origin.url
+git remote rm origin
+git remote add origin https://ghproxy.com/https://github.com/armbian/build.git
+
+
+make_path="../build/patch/misc/"
+cd linux-5.19.y
+patch -p1 < ${make_path}/rtl8811cu/wireless-rtl8821cu.patch
+patch -p1 < ${make_path}/rtl8811cu/wireless-rtl8811cu-5.19.2.patch
+patch -p1 < ${make_path}/rtl8811cu/wireless-rtl8811cu-Fix-VFS-import.patch
+patch -p1 < ${make_path}/rtl8811cu/wireless-rtl8811cu-Fix-p2p-go-advertising.patch
+patch -p1 < ${make_path}/rtl8811cu/wireless-rtl8811cu-Make-different-MAC-for-if1.patch  
+
+
+
+#!/bin/bash
+patch_path="../build/patch/misc"
+cd linux-6.1.y
+patch -fp1 < ${patch_path}/wireless-driver-for-uwe5622-allwinner.patch
+patch -fp1 < ${patch_path}/wireless-driver-for-uwe5622-allwinner-bugfix.patch
+patch -fp1 < ${patch_path}/wireless-driver-for-uwe5622-warnings.patch
+patch -fp1 < ${patch_path}/wireless-driver-for-uwe5622-v6.1.patch
+patch -fp1 < ${patch_path}/wireless-driver-for-uwe5622-park-link-v6.1-post.patch
+    sed -i "/ti\//a obj-\$(CONFIG_SPARD_WLAN_SUPPORT) +=  uwe5622/" drivers/net/wireless/Makefile
+    sed -i "/tristate \"UWE5621 Wi-Fi Driver./a\        default y"  drivers/net/wireless/uwe5622/unisocwifi/Kconfig
+    sed -i "s/default n/default y/g" drivers/net/wireless/uwe5622/Kconfig
+ls -al drivers/net/wireless
+cd ..
+
+git clone https://github.com/morrownr/8821cu-20210916.git
+rm -rf 8821cu-20210916/.git
+cp -r -d -p 8821cu-20210916 drivers/net/wireless/rtl8821cu
+sed -i "/uwe5622\/Kconfig\"/a source \"drivers/net/wireless/rtl8821cu/Kconfig\"" drivers/net/wireless/Kconfig
+sed -i "/ti\//a obj-\$(CONFIG_RTL8821CU) +=  rtl8821cu/" drivers/net/wireless/Makefile
+sed -i "/depends on US./a\        default m"  drivers/net/wireless/rtl8821cu/Kconfig
+
+
+apt install -y build-essential dkms git iw
+make_path=`pwd`
+
+
+# download kernel 6.11
+wget https://github.com/mir355/amlogic-s9xxx-armbian/releases/download/kernel_6.1.11/6.1.11.tar.gz
+tar zxmf 6.1.11.tar.gz
+cd 6.1.11
+mkdir build
+tar -C build
+mkdir headers
+tar -C build
+cd build
+ln -s 
+
+# update libgcc
+
+cd $make_path
+mkdir glibc
+wget https://ftp.gnu.org/gnu/glibc/glibc-2.34.tar.gz
+tar zxmf glibc-2.34.tar.gz
+mkdir glibc-2.34/build
+cd glibc-2.34/build
+./configure --prefix=$make_path/glibc
+make 
+make install
+
+# compile 8811cu
+cd $make_path
+
+git clone https://github.com/morrownr/8821cu-20210916.git
+rm -rf 8821cu-20210916/.git
+cd 8821cu-20210916
+export CROSS_COMPILE="aarch64-linux-gnu-"
+export CC="clang"
+export LD="ld.lld"
+export MFLAGS=" LLVM=1 LLVM_IAS=1 "
+
+make ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} CC=${CC} LD=${LD} ${MFLAGS} -C /mnt/armbian/6.1.11/6.1.11-flippy-81+/build M=/mnt/armbian/8821cu-20210916  modules
+
+
