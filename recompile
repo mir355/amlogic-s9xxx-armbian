@@ -443,6 +443,12 @@ compile_kernel() {
     kernel_x="$(echo "${kernel_version}" | cut -d '.' -f1)"
 
     cd ${make_path}
+    
+    # 88111cu
+    git clone https://github.com/morrownr/8821cu-20210916.git
+    rm -rf 8821cu-20210916/.git
+    
+    # uwe5621
     mkdir uwe5621ds
     cd uwe5621ds
     wget https://raw.githubusercontent.com/armbian/build/master/patch/misc/wireless-driver-for-uwe5622-allwinner.patch
@@ -454,6 +460,7 @@ compile_kernel() {
         wget https://raw.githubusercontent.com/armbian/build/master/patch/misc/wireless-driver-for-uwe5622-park-link-v6.1-post.patch
     fi
     ls -al
+
     cd ${kernel_path}/${local_kernel_path}
 
     echo -e "patch uwe5621&uwe5621"
@@ -470,6 +477,12 @@ compile_kernel() {
     sed -i "/tristate \"UWE5621 Wi-Fi Driver./a\        default m"  drivers/net/wireless/uwe5622/unisocwifi/Kconfig
     sed -i "s/default n/default y/g" drivers/net/wireless/uwe5622/Kconfig
     cat .config |grep UWE
+    
+    # 8811cu
+    cp -r -d -p ${make_path}/8821cu-20210916 drivers/net/wireless/rtl8821cu
+    sed -i "/uwe5622\/Kconfig\"/a source \"drivers/net/wireless/rtl8821cu/Kconfig\"" drivers/net/wireless/Kconfig
+    sed -i "/ti\//a obj-\$(CONFIG_RTL8821CU) +=  rtl8821cu/" drivers/net/wireless/Makefile
+    sed -i "/depends on US./a\        default m"  drivers/net/wireless/rtl8821cu/Kconfig
 
     # Make kernel
     echo -e "${STEPS} Start compilation kernel [ ${local_kernel_path} ]...${MAKE_SET_STRING}...${PROCESS}"
