@@ -473,7 +473,7 @@ compile_kernel() {
         patch -p1 < ${make_path}/uwe5621ds/wireless-driver-for-uwe5622-park-link-v6.1-post.patch
     fi
     
-    sed -i "/ti\//a obj-\$(CONFIG_SPARD_WLAN_SUPPORT) +=  uwe5622/" drivers/net/wireless/Makefile
+    sed -i "/ti\//a obj-\$(CONFIG_SPARD_WLAN_SUPPORT) += uwe5622/" drivers/net/wireless/Makefile
     sed -i "/tristate \"UWE5621 Wi-Fi Driver./a\        default m"  drivers/net/wireless/uwe5622/unisocwifi/Kconfig
     sed -i "s/default n/default y/g" drivers/net/wireless/uwe5622/Kconfig
     cat .config |grep UWE
@@ -481,9 +481,9 @@ compile_kernel() {
     # 8811cu
     echo -e "${STEPS} Start compilation 8811CU driver 
     cp -r -d -p ${make_path}/8821cu-20210916 drivers/net/wireless/rtl8821cu
+    sed -i "/ti\//a obj-\$(CONFIG_RTL8821CU) += rtl8821cu/" drivers/net/wireless/Makefile
     sed -i "/uwe5622\/Kconfig\"/a source \"drivers/net/wireless/rtl8821cu/Kconfig\"" drivers/net/wireless/Kconfig
-    sed -i "/ti\//a obj-\$(CONFIG_RTL8821CU) +=  rtl8821cu/" drivers/net/wireless/Makefile
-    sed -i "/depends on USB/a\        default y"  drivers/net/wireless/rtl8821cu/Kconfig
+    sed -i "/depends on USB/a\        default m"  drivers/net/wireless/rtl8821cu/Kconfig
     cat .config |grep 882
 
     # Make kernel
