@@ -482,7 +482,8 @@ compile_kernel() {
     cp -r -d -p ${make_path}/8821cu-20210916 drivers/net/wireless/rtl8821cu
     sed -i "/uwe5622\/Kconfig\"/a source \"drivers/net/wireless/rtl8821cu/Kconfig\"" drivers/net/wireless/Kconfig
     sed -i "/ti\//a obj-\$(CONFIG_RTL8821CU) +=  rtl8821cu/" drivers/net/wireless/Makefile
-    sed -i "/depends on US./a\        default m"  drivers/net/wireless/rtl8821cu/Kconfig
+    sed -i "/depends on USB/a\        default y"  drivers/net/wireless/rtl8821cu/Kconfig
+    cat .config |grep 882
 
     # Make kernel
     echo -e "${STEPS} Start compilation kernel [ ${local_kernel_path} ]...${MAKE_SET_STRING}...${PROCESS}"
