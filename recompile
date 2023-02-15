@@ -496,7 +496,7 @@ compile_kernel() {
     echo -e "${STEPS} Install modules..."
     make ${MAKE_SET_STRING} INSTALL_MOD_PATH=${out_kernel}/modules modules_install
     [[ "${?}" -eq "0" ]] && echo -e "${SUCCESS} The modules is installed successfully."
-    ls -al ${out_kernel}/modules/drivers/net/wireless
+    ls -al ${out_kernel}/modules/lib/modules/drivers/net/wireless
 
     # Install headers
     echo -e "${STEPS} Install headers..."
