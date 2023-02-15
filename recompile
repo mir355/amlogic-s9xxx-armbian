@@ -479,6 +479,7 @@ compile_kernel() {
     cat .config |grep UWE
     
     # 8811cu
+    echo -e "${STEPS} Start compilation 8811CU driver 
     cp -r -d -p ${make_path}/8821cu-20210916 drivers/net/wireless/rtl8821cu
     sed -i "/uwe5622\/Kconfig\"/a source \"drivers/net/wireless/rtl8821cu/Kconfig\"" drivers/net/wireless/Kconfig
     sed -i "/ti\//a obj-\$(CONFIG_RTL8821CU) +=  rtl8821cu/" drivers/net/wireless/Makefile
