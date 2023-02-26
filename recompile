@@ -424,6 +424,12 @@ compile_env() {
 
 compile_dtbs() {
     cd ${kernel_path}/${local_kernel_path}
+    // fixed uwd5621    
+    echo -e "${STEPS} Start fixed dtbs uwe5621..."
+    sed -i "s#//wifi\: wifi#wifi\: wifi#g" arch/arm64/boot/dts/amlogic/meson-g12a-s905l3a-e900v22c.dts
+    sed -i "s#//\s*reg#      reg#g" arch/arm64/boot/dts/amlogic/meson-g12a-s905l3a-e900v22c.dts
+    sed -i "/\/\/\s*compatible/a\        };" arch/arm64/boot/dts/amlogic/meson-g12a-s905l3a-e900v22c.dts
+    sed -i "s#//\s*compatible#      compatible#g" arch/arm64/boot/dts/amlogic/meson-g12a-s905l3a-e900v22c.dts
 
     # Make dtbs
     echo -e "${STEPS} Start compilation dtbs [ ${local_kernel_path} ]..."
