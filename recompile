@@ -172,13 +172,11 @@ toolchain_check() {
         # Install dependencies for jammy
         sudo apt-get clean
         sudo apt-get -qq update
-        sudo apt-get install --reinstall python-minimal python-lockfile
         sudo apt-get -qq install -y $(cat compile-kernel/tools/script/ubuntu2204-build-armbian-depends)
     else
         # Install dependencies for focal
         sudo apt-get clean
         sudo apt-get -qq update
-        sudo apt-get install --reinstall python-minimal python-lockfile
         sudo apt-get -qq install -y $(cat compile-kernel/tools/script/ubuntu2004-build-armbian-depends)
 
         [[ -d "${toolchain_path}" ]] || mkdir -p ${toolchain_path}
