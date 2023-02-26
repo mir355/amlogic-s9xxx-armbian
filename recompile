@@ -488,8 +488,8 @@ compile_kernel() {
     fi
     
     sed -i "/ti\//a obj-\$(CONFIG_SPARD_WLAN_SUPPORT) += uwe5622/" drivers/net/wireless/Makefile
-    sed -i "/tristate \"UWE5621 Wi-Fi Driver./a\        default m"  drivers/net/wireless/uwe5622/unisocwifi/Kconfig
-    sed -i "s/default n/default y/g" drivers/net/wireless/uwe5622/Kconfig
+    # sed -i "/tristate \"UWE5621 Wi-Fi Driver./a\        default m"  drivers/net/wireless/uwe5622/unisocwifi/Kconfig
+    # sed -i "s/default n/default y/g" drivers/net/wireless/uwe5622/Kconfig
     cat .config |grep UWE
     
     # 8811cu
