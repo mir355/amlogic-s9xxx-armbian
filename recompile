@@ -454,7 +454,9 @@ compile_kernel() {
     wget https://raw.githubusercontent.com/armbian/build/master/patch/misc/wireless-driver-for-uwe5622-allwinner.patch
     wget https://raw.githubusercontent.com/armbian/build/master/patch/misc/wireless-driver-for-uwe5622-allwinner-bugfix.patch
     wget https://raw.githubusercontent.com/armbian/build/master/patch/misc/wireless-driver-for-uwe5622-warnings.patch
-    
+    if [[ "${kernel_x}" -lt "6" ]] ; then
+        wget https://raw.githubusercontent.com/armbian/build/master/patch/misc/wireless-driver-for-uwe5622-park-link-pre-v6.1.patch.patch
+    fi    
     if [[ "${kernel_x}" -ge "6" ]] ; then
         wget https://raw.githubusercontent.com/armbian/build/master/patch/misc/wireless-driver-for-uwe5622-v6.1.patch
         wget https://raw.githubusercontent.com/armbian/build/master/patch/misc/wireless-driver-for-uwe5622-park-link-v6.1-post.patch
@@ -468,9 +470,12 @@ compile_kernel() {
     patch -p1 < ${make_path}/uwe5621ds/wireless-driver-for-uwe5622-allwinner.patch
     patch -p1 < ${make_path}/uwe5621ds/wireless-driver-for-uwe5622-allwinner-bugfix.patch
     patch -p1 < ${make_path}/uwe5621ds/wireless-driver-for-uwe5622-warnings.patch
+    if [[ "${kernel_x}" -lt "6" ]] ; then
+        patch -p1 < ${make_path}/uwe5621ds/wireless-driver-for-uwe5622-park-link-pre-v6.1.patch.patch
+    fi
     if [[ "${kernel_x}" -ge "6" ]] ; then
-        patch -p1 < ${make_path}/uwe5621ds/wireless-driver-for-uwe5622-v6.1.patch
         patch -p1 < ${make_path}/uwe5621ds/wireless-driver-for-uwe5622-park-link-v6.1-post.patch
+        patch -p1 < ${make_path}/uwe5621ds/wireless-driver-for-uwe5622-v6.1.patch
     fi
     
     sed -i "/ti\//a obj-\$(CONFIG_SPARD_WLAN_SUPPORT) += uwe5622/" drivers/net/wireless/Makefile
