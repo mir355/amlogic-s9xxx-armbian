@@ -426,7 +426,7 @@ compile_env() {
 
 compile_dtbs() {
     cd ${kernel_path}/${local_kernel_path}
-    // fixed uwd5621    
+    # fixed uwd5621    
     echo -e "${STEPS} Start fixed dtbs uwe5621..."
     ls -al
     sed -i "s#//wifi\: wifi#wifi\: wifi#g" arch/arm64/boot/dts/amlogic/meson-g12a-s905l3a-e900v22c.dts
